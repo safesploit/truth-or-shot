@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Truth or Shot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" type="image/png" href="assets/images/favicon.ico">
+</head>
+<body>
+  <header>
+    <h1>Truth or Shot</h1>
+    <!-- <p>Select a category to begin.</p> -->
+  </header>
+
+  <section id="rules">
+    <h2>How to Play</h2>
+    <p>Select a category to begin.<br> You'll be shown a question from that category.</p>
+    You must either <strong>answer honestly</strong> — or <strong>take a shot</strong>.<br>
+  </section>
+
+  <section id="categoryView">
+    <div class="category-buttons">
+      <button data-category="general">General</button>
+      <button data-category="friends">Friends</button>
+      <button data-category="couple">Couple</button>
+      <button data-category="party">Party</button>
+      <button data-category="nsfw">NSFW</button>
+    </div>
+  </section>
+
+  <section id="questionView" class="hidden">
+    <div id="questionDisplay">Loading...</div>
+    <div class="question-controls">
+      <button id="nextBtn">Next Question</button>
+      <button id="backBtn">Back to Categories</button>
+    </div>
+  </section>
+
+  <script src="assets/js/script.js"></script>
+</body>
+</html>

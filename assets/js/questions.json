@@ -1,0 +1,28 @@
+{
+    "general": [
+      "What's your biggest guilty pleasure?",
+      "Have you ever kept a major secret from your family?",
+      "What's the weirdest thing you believed as a child?"
+    ],
+    "friends": [
+      "Have you ever talked behind a friend’s back?",
+      "Who in this group would you not trust with a secret?",
+      "Have you ever been jealous of a friend’s success?"
+    ],
+    "couple": [
+      "What's something your partner doesn’t know about you?",
+      "Have you ever flirted with someone else while in a relationship?",
+      "What's the one thing you wish your partner did more often?"
+    ],
+    "party": [
+      "Show your last selfie to the group.",
+      "Swap shirts with the person next to you.",
+      "Call your ex and ask how they’re doing."
+    ],
+    "nsfw": [
+      "What's the kinkiest thing you've ever done?",
+      "Have you ever had a threesome or wanted one?",
+      "Describe the last time you had sex in detail."
+    ]
+  }
+  
