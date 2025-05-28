@@ -20,7 +20,8 @@ function getRandomQuestionFromCategory(category) {
 }
 
 function displayQuestion(text) {
-  document.getElementById("questionDisplay").textContent = text;
+  const display = document.getElementById("questionDisplay");
+  display.textContent = text;
 }
 
 function showQuestionView(category) {
@@ -55,14 +56,14 @@ function addCategoryIcons() {
 }
 
 function loadQuestions(callback) {
-  fetch("assets/js/questions.json")
-    .then(response => response.json())
-    .then(data => {
-      QUESTIONS = data;
+  fetch("assets/js/questions.yaml")
+    .then(res => res.text())
+    .then(yamlText => {
+      QUESTIONS = jsyaml.load(yamlText);
       callback();
     })
     .catch(err => {
-      console.error("Failed to load questions:", err);
+      console.error("Failed to load questions.yaml:", err);
       displayQuestion("Error loading questions.");
     });
 }
