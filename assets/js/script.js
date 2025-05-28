@@ -1,3 +1,6 @@
+// Global configuration
+const SHOW_THEME = true; // Toggle true/false show/hide theme of question
+
 let QUESTIONS = {};
 let activeCategory = null;
 let lastQuestion = null;
@@ -14,14 +17,19 @@ function shuffle(array) {
 function getRandomQuestionFromCategory(category) {
   const pool = QUESTIONS[category] || [];
   const shuffled = shuffle(pool);
-  const question = shuffled.find(q => q !== lastQuestion);
-  lastQuestion = question;
-  return question || "No more unique questions.";
+  const entry = shuffled.find(q => q.text !== lastQuestion);
+  if (!entry) return null;
+
+  lastQuestion = entry.text;
+  return entry;
 }
 
-function displayQuestion(text) {
+function displayQuestion(text, theme = "") {
   const display = document.getElementById("questionDisplay");
-  display.textContent = text;
+  display.innerHTML = `
+    <div class="question-text">${text}</div>
+    ${SHOW_THEME && theme ? `<div class="question-theme">(${theme})</div>` : ""}
+  `;
 }
 
 function showQuestionView(category) {
@@ -29,7 +37,13 @@ function showQuestionView(category) {
   document.getElementById("categoryView").classList.add("hidden");
   document.getElementById("questionView").classList.remove("hidden");
   document.getElementById("rules").classList.add("hidden");
-  displayQuestion(getRandomQuestionFromCategory(category));
+
+  const question = getRandomQuestionFromCategory(category);
+  if (question) {
+    displayQuestion(question.text, question.theme);
+  } else {
+    displayQuestion("No more unique questions.");
+  }
 }
 
 function showCategoryView() {
@@ -81,7 +95,11 @@ function main() {
   document.getElementById("nextBtn").addEventListener("click", () => {
     if (activeCategory) {
       const question = getRandomQuestionFromCategory(activeCategory);
-      displayQuestion(question);
+      if (question) {
+        displayQuestion(question.text, question.theme);
+      } else {
+        displayQuestion("No more unique questions.");
+      }
     }
   });
 
