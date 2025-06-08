@@ -1,9 +1,10 @@
 // Global configuration
-const SHOW_THEME = true; // Toggle true/false show/hide theme of question
+const SHOW_THEME = true;  // Toggle true/false show/hide theme of question
 
 let QUESTIONS = {};
 let activeCategory = null;
 let lastQuestion = null;
+let seenQuestions = {}; // Track shown questions by category
 
 function shuffle(array) {
   const arr = [...array];
@@ -16,19 +17,29 @@ function shuffle(array) {
 
 function getRandomQuestionFromCategory(category) {
   const pool = QUESTIONS[category] || [];
-  const shuffled = shuffle(pool);
-  const entry = shuffled.find(q => q.text !== lastQuestion);
-  if (!entry) return null;
 
-  lastQuestion = entry.text;
-  return entry;
+  if (!seenQuestions[category]) {
+    seenQuestions[category] = new Set();
+  }
+
+  const unseen = pool.filter(q => !seenQuestions[category].has(q.text));
+
+  if (unseen.length === 0) {
+    seenQuestions[category].clear(); // Reset seen when all shown
+    return getRandomQuestionFromCategory(category); // retry from fresh pool
+  }
+
+  const chosen = unseen[Math.floor(Math.random() * unseen.length)];
+  seenQuestions[category].add(chosen.text);
+  lastQuestion = chosen.text;
+  return chosen;
 }
 
 function displayQuestion(text, theme = "") {
   const display = document.getElementById("questionDisplay");
   display.innerHTML = `
-    <div class="question-text">${text}</div>
     ${SHOW_THEME && theme ? `<div class="question-theme">(${theme})</div>` : ""}
+    <div class="question-text">${text}</div>
   `;
 }
 
@@ -70,7 +81,8 @@ function addCategoryIcons() {
 }
 
 function loadQuestions(callback) {
-  fetch("assets/js/questions.yaml")
+  const cacheBuster = new Date().toISOString().split('T')[0];
+  fetch(`assets/js/questions.yaml?v=${cacheBuster}`)
     .then(res => res.text())
     .then(yamlText => {
       QUESTIONS = jsyaml.load(yamlText);
